@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantry Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary-color: #FF9800;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --gray-color: #757575;
+            --danger-color: #f44336;
+            --success-color: #4CAF50;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 10px;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .app-title h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+        }
+        
+        .app-title i {
+            font-size: 32px;
+            color: var(--primary-dark);
+        }
+        
+        .shopping-mode {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--secondary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .search-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-label {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--dark-color);
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .autocomplete-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background-color 0.2s;
+        }
+        
+        .autocomplete-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+        
+        .add-new-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .add-new-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .add-new-btn.hidden {
+            display: none;
+        }
+        
+        .pantry-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .section-header h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-pantry {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            width: 200px;
+        }
+        
+        .sort-select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .pantry-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .pantry-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pantry-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .item-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .item-stock {
+            color: var(--gray-color);
+            font-size: 14px;
+        }
+        
+        .item-modified {
+            color: var(--gray-color);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+        
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stock-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stock-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .stock-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .stock-value {
+            font-weight: 600;
+            font-size: 18px;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .save-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: none;
+        }
+        
+        .save-btn.visible {
+            display: block;
+        }
+        
+        .save-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .empty-pantry {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray-color);
+            grid-column: 1 / -1;
+        }
+        
+        .empty-pantry i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+        
+        .shopping-mode-on {
+            background-color: #FFF3E0;
+        }
+        
+        @media (max-width: 768px) {
+            .pantry-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                width: 100%;
+            }
+            
+            .search-pantry {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="app-title">
+                <i class="fas fa-utensils"></i>
+                <h1>Pantry Manager</h1>
+            </div>
+            
+            <div class="shopping-mode">
+                <span>Shopping Mode</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="shoppingToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </header>
+        
+        <section class="search-section">
+            <h2 class="search-label">Search or Add Items</h2>
+            <div class="search-container">
+                <input type="text" id="searchBox" class="search-box" placeholder="Type to search for items...">
+                <div id="autocompleteList" class="autocomplete-list"></div>
+            </div>
+            <button id="addNewItemBtn" class="add-new-btn hidden">
+                <i class="fas fa-plus-circle"></i>
+                Add New Item: "<span id="newItemName"></span>"
+            </button>
+        </section>
+        
+        <section class="pantry-section">
+            <div class="section-header">
+                <h2>Your Pantry</h2>
+                <div class="controls">
+                    <input type="text" id="pantrySearch" class="search-pantry" placeholder="Search pantry items...">
+                    <select id="sortSelect" class="sort-select">
+                        <option value="name-asc">Sort by: Name A-Z</option>
+                        <option value="name-desc">Sort by: Name Z-A</option>
+                        <option value="stock-asc">Sort by: Stock (Low to High)</option>
+                        <option value="stock-desc">Sort by: Stock (High to Low)</option>
+                        <option value="date-asc">Sort by: Oldest Modified</option>
+                        <option value="date-desc">Sort by: Recent Modified</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="pantryList" class="pantry-list">
+                <!-- Pantry items will be dynamically added here -->
+                <div class="empty-pantry">
+                    <i class="fas fa-shopping-basket"></i>
+                    <h3>Your pantry is empty</h3>
+                    <p>Start by searching and adding items above</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // DOM elements
+        const searchBox = document.getElementById('searchBox');
+        const autocompleteList = document.getElementById('autocompleteList');
+        const addNewItemBtn = document.getElementById('addNewItemBtn');
+        const newItemName = document.getElementById('newItemName');
+        const pantryList = document.getElementById('pantryList');
+        const pantrySearch = document.getElementById('pantrySearch');
+        const sortSelect = document.getElementById('sortSelect');
+        const shoppingToggle = document.getElementById('shoppingToggle');
+        
+        // State variables
+        let pantryItems = [];
+        let shoppingMode = false;
+        let itemsToSave = new Set(); // Track items that need to be saved
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPantryItems();
+            renderPantryList();
+            
+            // Set up event listeners
+            searchBox.addEventListener('input', handleSearch);
+            addNewItemBtn.addEventListener('click', addNewItem);
+            pantrySearch.addEventListener('input', filterPantryList);
+            sortSelect.addEventListener('change', renderPantryList);
+            shoppingToggle.addEventListener('change', toggleShoppingMode);
+        });
+        
+        // Load pantry items from local storage
+        function loadPantryItems() {
+            const storedItems = localStorage.getItem('pantryItems');
+            pantryItems = storedItems ? JSON.parse(storedItems) : [];
+            
+            // Initialize itemsToSave as empty
+            itemsToSave.clear();
+        }
+        
+        // Save pantry items to local storage
+        function savePantryItems() {
+            localStorage.setItem('pantryItems', JSON.stringify(pantryItems));
+            itemsToSave.clear();
+        }
+        
+        // Generate a text icon (first 3 letters of item name)
+        function generateIcon(name) {
+            return name.substring(0, 3).toUpperCase();
+        }
+        
+        // Handle search input for autocomplete
+        function handleSearch() {
+            const searchTerm = searchBox.value.trim().toLowerCase();
+            autocompleteList.innerHTML = '';
+            
+            if (searchTerm.length === 0) {
+                autocompleteList.style.display = 'none';
+                addNewItemBtn.classList.add('hidden');
+                return;
+            }
+            
+            // Filter items that match search term
+            const filteredItems = pantryItems.filter(item => 
+                item.name.toLowerCase().includes(searchTerm)
+            );
+            
+            // Show autocomplete suggestions
+            if (filteredItems.length > 0) {
+                filteredItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'autocomplete-item';
+                    itemElement.innerHTML = `
+                        <div class="item-icon">${generateIcon(item.name)}</div>
+                        <div>
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-stock">Stock: ${item.stock}</div>
+                        </div>
+                    `;
+                    
+                    itemElement.addEventListener('click', () => {
+                        addItemToPantry(item.name);
+                        searchBox.value = '';
+                        autocompleteList.style.display = 'none';
+                        addNewItemBtn.classList.add('hidden');
+                    });
+                    
+                    autocompleteList.appendChild(itemElement);
+                });
+                
+                autocompleteList.style.display = 'block';
+                addNewItemBtn.classList.add('hidden');
+            } else {
+                // No matches found, show "add new item" button
+                autocompleteList.style.display = 'none';
+                newItemName.textContent = searchTerm;
+                addNewItemBtn.classList.remove('hidden');
+            }
+        }
+        
+        // Add a new item to pantry
+        function addNewItem() {
+            const itemName = searchBox.value.trim();
+            
+            if (itemName.length === 0) return;
+            
+            addItemToPantry(itemName);
+            searchBox.value = '';
+            addNewItemBtn.classList.add('hidden');
+        }
+        
+        // Add item to pantry (new or existing)
+        function addItemToPantry(itemName) {
+            // Check if item already exists in pantry
+            const existingItemIndex = pantryItems.findIndex(item => 
+                item.name.toLowerCase() === itemName.toLowerCase()
+            );
+            
+            if (existingItemIndex >= 0) {
+                // Item exists, increment stock
+                pantryItems[existingItemIndex].stock += 1;
+                pantryItems[existingItemIndex].lastModified = new Date().toISOString();
+            } else {
+                // Create new item
+                const newItem = {
+                    id: Date.now(),
+                    name: itemName,
+                    stock: 1,
+                    lastModified: new Date().toISOString()
+                };
+                
+                pantryItems.push(newItem);
+            }
+            
+            savePantryItems();
+            renderPantryList();
+        }
+        
+        // Render the pantry list
+        function renderPantryList() {
+            // Filter items based on search
+            let filteredItems = [...pantryItems];
+            const searchTerm = pantrySearch.value.trim().toLowerCase();
+            
+            if (searchTerm.length > 0) {
+                filteredItems = filteredItems.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Sort items based on selected option
+            const sortOption = sortSelect.value;
+            
+            filteredItems.sort((a, b) => {
+                switch (sortOption) {
+                    case 'name-asc':
+                        return a.name.localeCompare(b.name);
+                    case 'name-desc':
+                        return b.name.localeCompare(a.name);
+                    case 'stock-asc':
+                        return a.stock - b.stock;
+                    case 'stock-desc':
+                        return b.stock - a.stock;
+                    case 'date-asc':
+                        return new Date(a.lastModified) - new Date(b.lastModified);
+                    case 'date-desc':
+                        return new Date(b.lastModified) - new Date(a.lastModified);
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Render items
+            if (filteredItems.length === 0) {
+                pantryList.innerHTML = `
+                    <div class="empty-pantry">
+                        <i class="fas fa-shopping-basket"></i>
+                        <h3>No items found</h3>
+                        <p>Try a different search term</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            pantryList.innerHTML = '';
+            
+            filteredItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = `pantry-item ${shoppingMode ? 'shopping-mode-on' : ''}`;
+                itemElement.innerHTML = `
+                    <div class="item-info">
+                        <div class="item-icon">${generateIcon(item.name)}</div>
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-stock">Stock: ${item.stock}</div>
+                            <div class="item-modified">Last modified: ${formatDate(item.lastModified)}</div>
+                        </div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="stock-control">
+                            <button class="stock-btn minus-btn" data-id="${item.id}">-</button>
+                            <div class="stock-value">${item.stock}</div>
+                            <button class="stock-btn plus-btn" data-id="${item.id}">+</button>
+                        </div>
+                        <button class="save-btn" data-id="${item.id}">Save</button>
+                    </div>
+                `;
+                
+                pantryList.appendChild(itemElement);
+            });
+            
+            // Add event listeners to the buttons
+            document.querySelectorAll('.minus-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    updateStock(id, -1);
+                });
+            });
+            
+            document.querySelectorAll('.plus-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    updateStock(id, 1);
+                });
+            });
+            
+            document.querySelectorAll('.save-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    saveItemChanges(id);
+                });
+            });
+            
+            // Show/hide save buttons based on shopping mode
+            updateSaveButtonsVisibility();
+        }
+        
+        // Update item stock
+        function updateStock(id, change) {
+            const itemIndex = pantryItems.findIndex(item => item.id === id);
+            
+            if (itemIndex === -1) return;
+            
+            // Update stock (ensure it doesn't go below 0)
+            pantryItems[itemIndex].stock = Math.max(0, pantryItems[itemIndex].stock + change);
+            pantryItems[itemIndex].lastModified = new Date().toISOString();
+            
+            // Mark item for saving
+            itemsToSave.add(id);
+            
+            // If shopping mode is on, save immediately
+            if (shoppingMode) {
+                savePantryItems();
+                itemsToSave.delete(id);
+            }
+            
+            renderPantryList();
+        }
+        
+        // Save changes for a specific item
+        function saveItemChanges(id) {
+            itemsToSave.delete(id);
+            savePantryItems();
+            renderPantryList();
+        }
+        
+        // Toggle shopping mode
+        function toggleShoppingMode() {
+            shoppingMode = shoppingToggle.checked;
+            
+            // If turning shopping mode off and there are unsaved changes, save them
+            if (!shoppingMode && itemsToSave.size > 0) {
+                savePantryItems();
+            }
+            
+            renderPantryList();
+        }
+        
+        // Update visibility of save buttons
+        function updateSaveButtonsVisibility() {
+            const saveButtons = document.querySelectorAll('.save-btn');
+            
+            saveButtons.forEach(btn => {
+                const id = parseInt(btn.dataset.id);
+                
+                if (shoppingMode) {
+                    // In shopping mode, hide all save buttons
+                    btn.classList.remove('visible');
+                } else {
+                    // In normal mode, only show save buttons for items with unsaved changes
+                    if (itemsToSave.has(id)) {
+                        btn.classList.add('visible');
+                    } else {
+                        btn.classList.remove('visible');
+                    }
+                }
+            });
+        }
+        
+        // Filter pantry list based on search
+        function filterPantryList() {
+            renderPantryList();
+        }
+        
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        // Add some sample data on first run
+        if (!localStorage.getItem('pantryItems')) {
+            const sampleItems = [
+                {id: 1, name: 'Bananas', stock: 5, lastModified: new Date().toISOString()},
+                {id: 2, name: 'Apples', stock: 8, lastModified: new Date().toISOString()},
+                {id: 3, name: 'Milk', stock: 2, lastModified: new Date().toISOString()},
+                {id: 4, name: 'Bread', stock: 1, lastModified: new Date().toISOString()},
+                {id: 5, name: 'Eggs', stock: 12, lastModified: new Date().toISOString()},
+                {id: 6, name: 'Coffee', stock: 1, lastModified: new Date().toISOString()},
+            ];
+            
+            localStorage.setItem('pantryItems', JSON.stringify(sampleItems));
+            loadPantryItems();
+            renderPantryList();
+        }
+    </script>
+</body>
+</html>
