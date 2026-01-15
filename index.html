@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantry Manager</title>
+    <title>Pantry Manager Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -31,18 +31,18 @@
             background-color: #f9f9f9;
             color: var(--dark-color);
             line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
         
         .container {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 25px;
         }
         
-        header {
+        .app-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,6 +50,8 @@
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
+            flex-wrap: wrap;
+            gap: 20px;
         }
         
         .app-title {
@@ -66,6 +68,13 @@
         .app-title i {
             font-size: 32px;
             color: var(--primary-dark);
+        }
+        
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
         
         .shopping-mode {
@@ -120,6 +129,49 @@
             transform: translateX(30px);
         }
         
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .nav-tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--gray-color);
+        }
+        
+        .nav-tab:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .nav-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         .search-section {
             background-color: white;
             padding: 25px;
@@ -162,7 +214,7 @@
             background-color: white;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
             z-index: 100;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -200,32 +252,11 @@
             font-size: 16px;
         }
         
-        .new-item-form {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin-top: 15px;
+        .quick-add-section {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .new-item-form.hidden {
-            display: none;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
-        }
-        
-        .form-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 15px;
+            flex-wrap: wrap;
         }
         
         .unit-select {
@@ -234,43 +265,10 @@
             border-radius: var(--border-radius);
             background-color: white;
             cursor: pointer;
-            min-width: 120px;
+            min-width: 140px;
         }
         
-        .form-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-        
-        .add-new-btn {
+        .quick-add-btn {
             background-color: var(--primary-color);
             color: white;
             border: none;
@@ -282,26 +280,27 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 15px;
             transition: background-color 0.3s;
         }
         
-        .add-new-btn:hover {
+        .quick-add-btn:hover {
             background-color: var(--primary-dark);
         }
         
-        .add-new-btn.hidden {
+        .quick-add-btn.hidden {
             display: none;
         }
         
-        .pantry-section {
-            background-color: white;
-            padding: 25px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
+        .catalog-info {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
-        .section-header {
+        .pantry-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -310,12 +309,7 @@
             gap: 15px;
         }
         
-        .section-header h2 {
-            color: var(--primary-color);
-            font-size: 24px;
-        }
-        
-        .controls {
+        .pantry-filters {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
@@ -328,12 +322,22 @@
             width: 200px;
         }
         
+        .category-filter, .unit-filter {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            min-width: 140px;
+        }
+        
         .sort-select {
             padding: 10px 15px;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             background-color: white;
             cursor: pointer;
+            min-width: 180px;
         }
         
         .pantry-list {
@@ -349,27 +353,29 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
             border: 1px solid #eee;
             transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .pantry-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
         }
         
         .item-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            flex: 1;
         }
         
         .item-details {
             display: flex;
             flex-direction: column;
-            flex: 1;
         }
         
         .item-name {
@@ -378,51 +384,38 @@
             margin-bottom: 5px;
         }
         
-        .item-stock {
-            color: var(--gray-color);
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-bottom: 3px;
-        }
-        
-        .item-unit {
-            color: var(--primary-color);
-            font-weight: 500;
-            font-size: 13px;
-            background-color: #f0f9f0;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 5px;
-        }
-        
-        .item-modified {
-            color: var(--gray-color);
+        .item-category {
             font-size: 12px;
-            margin-top: 3px;
+            color: white;
+            background-color: #6c757d;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 5px;
         }
         
-        .item-controls {
+        .item-stock-control {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stock-input-container {
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .stock-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
         .stock-btn {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             border: none;
             background-color: var(--light-color);
             color: var(--dark-color);
             font-weight: bold;
+            font-size: 18px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -434,21 +427,35 @@
             background-color: #e0e0e0;
         }
         
-        .stock-value {
-            font-weight: 600;
+        .stock-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
             font-size: 18px;
-            min-width: 40px;
+            font-weight: 600;
             text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
         }
         
-        .unit-select-small {
-            padding: 5px 8px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            background-color: white;
-            cursor: pointer;
-            font-size: 13px;
-            min-width: 70px;
+        .stock-input:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .unit-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+        }
+        
+        .unit-display {
+            flex: 1;
+            font-size: 14px;
+            color: var(--gray-color);
         }
         
         .save-btn {
@@ -471,21 +478,102 @@
             background-color: var(--primary-dark);
         }
         
-        .empty-pantry {
+        .item-modified {
+            color: var(--gray-color);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .settings-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .settings-group {
+            margin-bottom: 30px;
+        }
+        
+        .settings-group h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .settings-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+        }
+        
+        .setting-label {
+            font-weight: 500;
+        }
+        
+        .step-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            width: 80px;
+        }
+        
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .unit-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+        }
+        
+        .empty-state {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             color: var(--gray-color);
             grid-column: 1 / -1;
         }
         
-        .empty-pantry i {
-            font-size: 50px;
-            margin-bottom: 15px;
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
             color: #ddd;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 10px;
+            font-size: 22px;
         }
         
         .shopping-mode-on {
             background-color: #FFF3E0;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: #e0f7fa;
+            color: #00796b;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 5px;
         }
         
         @media (max-width: 768px) {
@@ -493,105 +581,80 @@
                 grid-template-columns: 1fr;
             }
             
-            .section-header {
+            .pantry-controls {
                 flex-direction: column;
                 align-items: flex-start;
             }
             
-            .controls {
+            .pantry-filters {
                 width: 100%;
             }
             
-            .search-pantry {
+            .search-pantry, .category-filter, .unit-filter, .sort-select {
                 width: 100%;
             }
             
-            .pantry-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .item-controls {
+            .header-controls {
                 width: 100%;
                 justify-content: space-between;
             }
             
-            .form-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .form-input, .unit-select {
-                width: 100%;
+            .units-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="app-header">
             <div class="app-title">
                 <i class="fas fa-utensils"></i>
-                <h1>Pantry Manager</h1>
+                <h1>Pantry Manager Pro</h1>
             </div>
             
-            <div class="shopping-mode">
-                <span>Shopping Mode</span>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="shoppingToggle">
-                    <span class="slider"></span>
-                </label>
+            <div class="header-controls">
+                <div class="shopping-mode">
+                    <span>Shopping Mode</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="shoppingToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="pantry">Pantry</button>
+                    <button class="nav-tab" data-tab="catalog">Catalog</button>
+                    <button class="nav-tab" data-tab="settings">Settings</button>
+                </div>
             </div>
         </header>
         
-        <section class="search-section">
-            <h2 class="search-label">Search or Add Items</h2>
-            <div class="search-container">
-                <input type="text" id="searchBox" class="search-box" placeholder="Type to search for items...">
-                <div id="autocompleteList" class="autocomplete-list"></div>
-            </div>
-            
-            <div id="newItemForm" class="new-item-form hidden">
-                <div class="form-row">
-                    <input type="text" id="newItemNameInput" class="form-input" placeholder="Item name">
-                    <select id="newItemUnit" class="unit-select">
-                        <option value="count">Count</option>
-                        <option value="g">Grams (g)</option>
-                        <option value="kg">Kilograms (kg)</option>
-                        <option value="ml">Milliliters (ml)</option>
-                        <option value="l">Liters (l)</option>
-                        <option value="oz">Ounces (oz)</option>
-                        <option value="lb">Pounds (lb)</option>
-                        <option value="cup">Cups</option>
-                        <option value="tbsp">Tablespoons (tbsp)</option>
-                        <option value="tsp">Teaspoons (tsp)</option>
-                        <option value="piece">Pieces</option>
-                        <option value="pack">Packs</option>
-                        <option value="bottle">Bottles</option>
-                        <option value="can">Cans</option>
-                        <option value="box">Boxes</option>
-                    </select>
-                </div>
-                <div class="form-buttons">
-                    <button id="confirmAddBtn" class="btn btn-primary">
-                        <i class="fas fa-plus-circle"></i> Add Item
-                    </button>
-                    <button id="cancelAddBtn" class="btn btn-secondary">Cancel</button>
-                </div>
-            </div>
-            
-            <button id="addNewItemBtn" class="add-new-btn hidden">
-                <i class="fas fa-plus-circle"></i>
-                Add New Item: "<span id="newItemName"></span>"
-            </button>
-        </section>
-        
-        <section class="pantry-section">
-            <div class="section-header">
-                <h2>Your Pantry</h2>
-                <div class="controls">
-                    <input type="text" id="pantrySearch" class="search-pantry" placeholder="Search pantry items...">
+        <!-- Pantry Tab -->
+        <section id="pantry-tab" class="tab-content active">
+            <div class="search-section">
+                <h2 class="search-label">Organize Your Pantry</h2>
+                <div class="pantry-controls">
+                    <div class="pantry-filters">
+                        <input type="text" id="pantrySearch" class="search-pantry" placeholder="Search pantry items...">
+                        <select id="categoryFilter" class="category-filter">
+                            <option value="">All Categories</option>
+                            <option value="produce">Produce</option>
+                            <option value="dairy">Dairy</option>
+                            <option value="bakery">Bakery</option>
+                            <option value="protein">Protein</option>
+                            <option value="grains">Grains</option>
+                            <option value="beverages">Beverages</option>
+                            <option value="snacks">Snacks</option>
+                            <option value="spices">Spices</option>
+                            <option value="canned">Canned Goods</option>
+                            <option value="frozen">Frozen</option>
+                        </select>
+                        <select id="unitFilter" class="unit-filter">
+                            <option value="">All Units</option>
+                        </select>
+                    </div>
+                    
                     <select id="sortSelect" class="sort-select">
                         <option value="name-asc">Sort by: Name A-Z</option>
                         <option value="name-desc">Sort by: Name Z-A</option>
@@ -599,16 +662,86 @@
                         <option value="stock-desc">Sort by: Stock (High to Low)</option>
                         <option value="date-asc">Sort by: Oldest Modified</option>
                         <option value="date-desc">Sort by: Recent Modified</option>
+                        <option value="category">Sort by: Category</option>
                     </select>
                 </div>
+                
+                <div id="pantryList" class="pantry-list">
+                    <!-- Pantry items will be dynamically added here -->
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-basket"></i>
+                        <h3>Your pantry is empty</h3>
+                        <p>Add items from the catalog or search for items to add</p>
+                    </div>
+                </div>
             </div>
-            
-            <div id="pantryList" class="pantry-list">
-                <!-- Pantry items will be dynamically added here -->
-                <div class="empty-pantry">
-                    <i class="fas fa-shopping-basket"></i>
-                    <h3>Your pantry is empty</h3>
-                    <p>Start by searching and adding items above</p>
+        </section>
+        
+        <!-- Catalog Tab -->
+        <section id="catalog-tab" class="tab-content">
+            <div class="search-section">
+                <h2 class="search-label">Search Catalog</h2>
+                <div class="search-container">
+                    <input type="text" id="searchBox" class="search-box" placeholder="Type to search catalog items...">
+                    <div id="autocompleteList" class="autocomplete-list"></div>
+                </div>
+                
+                <div class="quick-add-section">
+                    <select id="unitSelect" class="unit-select">
+                        <!-- Units will be populated from settings -->
+                    </select>
+                    <button id="addNewItemBtn" class="quick-add-btn hidden">
+                        <i class="fas fa-plus-circle"></i>
+                        Add "<span id="newItemName"></span>"
+                    </button>
+                </div>
+                
+                <div class="catalog-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Catalog contains common pantry items. Select a unit and click "Add" to add to your pantry.</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Tab -->
+        <section id="settings-tab" class="tab-content">
+            <div class="settings-section">
+                <h2>Settings</h2>
+                
+                <div class="settings-group">
+                    <h3>Increment/Decrement Steps</h3>
+                    <div class="settings-options" id="stepSettings">
+                        <!-- Step settings will be populated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Enabled Units</h3>
+                    <div class="units-grid" id="unitToggles">
+                        <!-- Unit toggles will be populated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3>Categories</h3>
+                    <div class="settings-options">
+                        <div class="setting-item">
+                            <div class="setting-label">Default Category for New Items</div>
+                            <select id="defaultCategory" class="unit-select">
+                                <option value="uncategorized">Uncategorized</option>
+                                <option value="produce">Produce</option>
+                                <option value="dairy">Dairy</option>
+                                <option value="bakery">Bakery</option>
+                                <option value="protein">Protein</option>
+                                <option value="grains">Grains</option>
+                                <option value="beverages">Beverages</option>
+                                <option value="snacks">Snacks</option>
+                                <option value="spices">Spices</option>
+                                <option value="canned">Canned Goods</option>
+                                <option value="frozen">Frozen</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -620,61 +753,167 @@
         const autocompleteList = document.getElementById('autocompleteList');
         const addNewItemBtn = document.getElementById('addNewItemBtn');
         const newItemName = document.getElementById('newItemName');
-        const newItemForm = document.getElementById('newItemForm');
-        const newItemNameInput = document.getElementById('newItemNameInput');
-        const newItemUnit = document.getElementById('newItemUnit');
-        const confirmAddBtn = document.getElementById('confirmAddBtn');
-        const cancelAddBtn = document.getElementById('cancelAddBtn');
+        const unitSelect = document.getElementById('unitSelect');
         const pantryList = document.getElementById('pantryList');
         const pantrySearch = document.getElementById('pantrySearch');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const unitFilter = document.getElementById('unitFilter');
         const sortSelect = document.getElementById('sortSelect');
         const shoppingToggle = document.getElementById('shoppingToggle');
+        const defaultCategory = document.getElementById('defaultCategory');
+        const stepSettings = document.getElementById('stepSettings');
+        const unitToggles = document.getElementById('unitToggles');
         
-        // Available units
-        const units = [
-            { value: 'count', label: 'Count', step: 1 },
-            { value: 'g', label: 'Grams (g)', step: 10 },
-            { value: 'kg', label: 'Kilograms (kg)', step: 0.1 },
-            { value: 'ml', label: 'Milliliters (ml)', step: 10 },
-            { value: 'l', label: 'Liters (l)', step: 0.1 },
-            { value: 'oz', label: 'Ounces (oz)', step: 0.5 },
-            { value: 'lb', label: 'Pounds (lb)', step: 0.1 },
-            { value: 'cup', label: 'Cups', step: 0.25 },
-            { value: 'tbsp', label: 'Tablespoons (tbsp)', step: 1 },
-            { value: 'tsp', label: 'Teaspoons (tsp)', step: 1 },
-            { value: 'piece', label: 'Pieces', step: 1 },
-            { value: 'pack', label: 'Packs', step: 1 },
-            { value: 'bottle', label: 'Bottles', step: 1 },
-            { value: 'can', label: 'Cans', step: 1 },
-            { value: 'box', label: 'Boxes', step: 1 }
+        // Tab navigation
+        const navTabs = document.querySelectorAll('.nav-tab');
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                
+                // Update active tab
+                navTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Available units with default steps
+        const availableUnits = [
+            { value: 'count', label: 'Count', step: 1, enabled: true },
+            { value: 'g', label: 'Grams (g)', step: 10, enabled: true },
+            { value: 'kg', label: 'Kilograms (kg)', step: 0.1, enabled: true },
+            { value: 'ml', label: 'Milliliters (ml)', step: 10, enabled: true },
+            { value: 'l', label: 'Liters (l)', step: 0.1, enabled: true },
+            { value: 'oz', label: 'Ounces (oz)', step: 0.5, enabled: true },
+            { value: 'lb', label: 'Pounds (lb)', step: 0.1, enabled: true },
+            { value: 'cup', label: 'Cups', step: 0.25, enabled: true },
+            { value: 'tbsp', label: 'Tablespoons (tbsp)', step: 1, enabled: true },
+            { value: 'tsp', label: 'Teaspoons (tsp)', step: 1, enabled: true },
+            { value: 'piece', label: 'Pieces', step: 1, enabled: true },
+            { value: 'pack', label: 'Packs', step: 1, enabled: true },
+            { value: 'bottle', label: 'Bottles', step: 1, enabled: true },
+            { value: 'can', label: 'Cans', step: 1, enabled: true },
+            { value: 'box', label: 'Boxes', step: 1, enabled: true }
+        ];
+        
+        // Default catalog items
+        const catalogItems = [
+            { name: 'Bananas', category: 'produce', commonUnits: ['count'] },
+            { name: 'Apples', category: 'produce', commonUnits: ['count'] },
+            { name: 'Milk', category: 'dairy', commonUnits: ['l', 'ml'] },
+            { name: 'Bread', category: 'bakery', commonUnits: ['count', 'pack'] },
+            { name: 'Eggs', category: 'protein', commonUnits: ['count'] },
+            { name: 'Coffee', category: 'beverages', commonUnits: ['g', 'kg'] },
+            { name: 'Sugar', category: 'spices', commonUnits: ['g', 'kg'] },
+            { name: 'Flour', category: 'grains', commonUnits: ['g', 'kg'] },
+            { name: 'Rice', category: 'grains', commonUnits: ['g', 'kg'] },
+            { name: 'Pasta', category: 'grains', commonUnits: ['g', 'kg'] },
+            { name: 'Chicken', category: 'protein', commonUnits: ['g', 'kg', 'lb'] },
+            { name: 'Cheese', category: 'dairy', commonUnits: ['g', 'kg'] },
+            { name: 'Butter', category: 'dairy', commonUnits: ['g', 'tbsp'] },
+            { name: 'Olive Oil', category: 'spices', commonUnits: ['ml', 'l'] },
+            { name: 'Salt', category: 'spices', commonUnits: ['g', 'tsp'] },
+            { name: 'Pepper', category: 'spices', commonUnits: ['g', 'tsp'] },
+            { name: 'Yogurt', category: 'dairy', commonUnits: ['g', 'count'] },
+            { name: 'Cereal', category: 'grains', commonUnits: ['g', 'cup'] },
+            { name: 'Orange Juice', category: 'beverages', commonUnits: ['ml', 'l'] },
+            { name: 'Tomatoes', category: 'produce', commonUnits: ['count', 'g'] },
+            { name: 'Potatoes', category: 'produce', commonUnits: ['count', 'g', 'kg'] },
+            { name: 'Onions', category: 'produce', commonUnits: ['count', 'g'] },
+            { name: 'Carrots', category: 'produce', commonUnits: ['count', 'g'] },
+            { name: 'Lettuce', category: 'produce', commonUnits: ['count', 'head'] }
         ];
         
         // State variables
         let pantryItems = [];
         let shoppingMode = false;
-        let itemsToSave = new Set(); // Track items that need to be saved
+        let itemsToSave = new Set();
+        let enabledUnits = [];
+        let unitSteps = {};
+        let sortSetting = 'name-asc';
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
             loadPantryItems();
+            renderUnitSelect();
+            renderUnitFilter();
+            renderStepSettings();
+            renderUnitToggles();
             renderPantryList();
             
             // Set up event listeners
             searchBox.addEventListener('input', handleSearch);
-            addNewItemBtn.addEventListener('click', showAddItemForm);
-            confirmAddBtn.addEventListener('click', addNewItem);
-            cancelAddBtn.addEventListener('click', cancelAddItem);
+            addNewItemBtn.addEventListener('click', addNewItem);
             pantrySearch.addEventListener('input', filterPantryList);
-            sortSelect.addEventListener('change', renderPantryList);
+            categoryFilter.addEventListener('change', filterPantryList);
+            unitFilter.addEventListener('change', filterPantryList);
+            sortSelect.addEventListener('change', () => {
+                sortSetting = sortSelect.value;
+                saveSettings();
+                renderPantryList();
+            });
             shoppingToggle.addEventListener('change', toggleShoppingMode);
+            defaultCategory.addEventListener('change', saveSettings);
         });
+        
+        // Load settings from local storage
+        function loadSettings() {
+            // Load enabled units
+            const storedUnits = localStorage.getItem('enabledUnits');
+            if (storedUnits) {
+                enabledUnits = JSON.parse(storedUnits);
+            } else {
+                // Default: all units enabled
+                enabledUnits = availableUnits.map(u => u.value);
+            }
+            
+            // Load unit steps
+            const storedSteps = localStorage.getItem('unitSteps');
+            if (storedSteps) {
+                unitSteps = JSON.parse(storedSteps);
+            } else {
+                // Default steps
+                availableUnits.forEach(unit => {
+                    unitSteps[unit.value] = unit.step;
+                });
+            }
+            
+            // Load sort setting
+            const storedSort = localStorage.getItem('sortSetting');
+            if (storedSort) {
+                sortSetting = storedSort;
+                sortSelect.value = sortSetting;
+            }
+            
+            // Load default category
+            const storedCategory = localStorage.getItem('defaultCategory');
+            if (storedCategory) {
+                defaultCategory.value = storedCategory;
+            }
+        }
+        
+        // Save settings to local storage
+        function saveSettings() {
+            localStorage.setItem('enabledUnits', JSON.stringify(enabledUnits));
+            localStorage.setItem('unitSteps', JSON.stringify(unitSteps));
+            localStorage.setItem('sortSetting', sortSetting);
+            localStorage.setItem('defaultCategory', defaultCategory.value);
+            
+            // Update UI
+            renderUnitSelect();
+            renderUnitFilter();
+        }
         
         // Load pantry items from local storage
         function loadPantryItems() {
             const storedItems = localStorage.getItem('pantryItems');
             pantryItems = storedItems ? JSON.parse(storedItems) : [];
-            
-            // Initialize itemsToSave as empty
             itemsToSave.clear();
         }
         
@@ -691,14 +930,109 @@
         
         // Get unit label from value
         function getUnitLabel(unitValue) {
-            const unit = units.find(u => u.value === unitValue);
+            const unit = availableUnits.find(u => u.value === unitValue);
             return unit ? unit.label : unitValue;
         }
         
         // Get unit step from value
         function getUnitStep(unitValue) {
-            const unit = units.find(u => u.value === unitValue);
-            return unit ? unit.step : 1;
+            return unitSteps[unitValue] || 1;
+        }
+        
+        // Render unit select dropdown
+        function renderUnitSelect() {
+            unitSelect.innerHTML = '';
+            enabledUnits.forEach(unitValue => {
+                const unit = availableUnits.find(u => u.value === unitValue);
+                if (unit) {
+                    const option = document.createElement('option');
+                    option.value = unit.value;
+                    option.textContent = unit.label;
+                    unitSelect.appendChild(option);
+                }
+            });
+        }
+        
+        // Render unit filter dropdown
+        function renderUnitFilter() {
+            unitFilter.innerHTML = '<option value="">All Units</option>';
+            enabledUnits.forEach(unitValue => {
+                const unit = availableUnits.find(u => u.value === unitValue);
+                if (unit) {
+                    const option = document.createElement('option');
+                    option.value = unit.value;
+                    option.textContent = unit.label;
+                    unitFilter.appendChild(option);
+                }
+            });
+        }
+        
+        // Render step settings
+        function renderStepSettings() {
+            stepSettings.innerHTML = '';
+            enabledUnits.forEach(unitValue => {
+                const unit = availableUnits.find(u => u.value === unitValue);
+                if (unit) {
+                    const setting = document.createElement('div');
+                    setting.className = 'setting-item';
+                    setting.innerHTML = `
+                        <div class="setting-label">${unit.label}</div>
+                        <input type="number" class="step-input" 
+                               data-unit="${unit.value}" 
+                               value="${getUnitStep(unit.value)}" 
+                               step="${unit.value === 'count' ? 1 : 0.01}"
+                               min="0.01">
+                    `;
+                    stepSettings.appendChild(setting);
+                }
+            });
+            
+            // Add event listeners to step inputs
+            document.querySelectorAll('.step-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const unit = e.target.dataset.unit;
+                    const step = parseFloat(e.target.value);
+                    if (step > 0) {
+                        unitSteps[unit] = step;
+                        saveSettings();
+                    }
+                });
+            });
+        }
+        
+        // Render unit toggles
+        function renderUnitToggles() {
+            unitToggles.innerHTML = '';
+            availableUnits.forEach(unit => {
+                const toggle = document.createElement('div');
+                toggle.className = 'unit-toggle';
+                toggle.innerHTML = `
+                    <input type="checkbox" id="unit-${unit.value}" 
+                           data-unit="${unit.value}" 
+                           ${enabledUnits.includes(unit.value) ? 'checked' : ''}>
+                    <label for="unit-${unit.value}">${unit.label}</label>
+                `;
+                unitToggles.appendChild(toggle);
+            });
+            
+            // Add event listeners to unit toggles
+            document.querySelectorAll('.unit-toggle input').forEach(toggle => {
+                toggle.addEventListener('change', (e) => {
+                    const unit = e.target.dataset.unit;
+                    if (e.target.checked) {
+                        if (!enabledUnits.includes(unit)) {
+                            enabledUnits.push(unit);
+                        }
+                    } else {
+                        const index = enabledUnits.indexOf(unit);
+                        if (index > -1) {
+                            enabledUnits.splice(index, 1);
+                        }
+                    }
+                    saveSettings();
+                    renderStepSettings();
+                });
+            });
         }
         
         // Handle search input for autocomplete
@@ -709,12 +1043,11 @@
             if (searchTerm.length === 0) {
                 autocompleteList.style.display = 'none';
                 addNewItemBtn.classList.add('hidden');
-                newItemForm.classList.add('hidden');
                 return;
             }
             
-            // Filter items that match search term
-            const filteredItems = pantryItems.filter(item => 
+            // Filter catalog items that match search term
+            const filteredItems = catalogItems.filter(item => 
                 item.name.toLowerCase().includes(searchTerm)
             );
             
@@ -723,20 +1056,30 @@
                 filteredItems.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'autocomplete-item';
+                    
+                    // Find common units that are enabled
+                    const availableCommonUnits = item.commonUnits.filter(unit => 
+                        enabledUnits.includes(unit)
+                    );
+                    
                     itemElement.innerHTML = `
                         <div class="item-icon">${generateIcon(item.name)}</div>
                         <div>
                             <div class="item-name">${item.name}</div>
-                            <div class="item-stock">Stock: ${item.stock} ${getUnitLabel(item.unit)}</div>
+                            <div class="item-category">${item.category}</div>
+                            <div style="font-size: 12px; color: #666; margin-top: 3px;">
+                                Common units: ${availableCommonUnits.map(u => getUnitLabel(u)).join(', ')}
+                            </div>
                         </div>
                     `;
                     
                     itemElement.addEventListener('click', () => {
-                        addItemToPantry(item.name, item.unit);
-                        searchBox.value = '';
-                        autocompleteList.style.display = 'none';
-                        addNewItemBtn.classList.add('hidden');
-                        newItemForm.classList.add('hidden');
+                        // Set the first available common unit as default
+                        const defaultUnit = availableCommonUnits.length > 0 ? 
+                            availableCommonUnits[0] : enabledUnits[0];
+                        unitSelect.value = defaultUnit;
+                        
+                        addNewItemBtn.click();
                     });
                     
                     autocompleteList.appendChild(itemElement);
@@ -744,53 +1087,28 @@
                 
                 autocompleteList.style.display = 'block';
                 addNewItemBtn.classList.add('hidden');
-                newItemForm.classList.add('hidden');
             } else {
                 // No matches found, show "add new item" button
                 autocompleteList.style.display = 'none';
                 newItemName.textContent = searchTerm;
-                newItemNameInput.value = searchTerm;
                 addNewItemBtn.classList.remove('hidden');
             }
         }
         
-        // Show the add item form
-        function showAddItemForm() {
-            addNewItemBtn.classList.add('hidden');
-            newItemForm.classList.remove('hidden');
-        }
-        
-        // Cancel adding new item
-        function cancelAddItem() {
-            newItemForm.classList.add('hidden');
-            searchBox.value = '';
-            autocompleteList.style.display = 'none';
-        }
-        
         // Add a new item to pantry
         function addNewItem() {
-            const itemName = newItemNameInput.value.trim();
-            const itemUnit = newItemUnit.value;
+            const itemName = searchBox.value.trim();
+            const itemUnit = unitSelect.value;
             
-            if (itemName.length === 0) {
-                alert('Please enter an item name');
-                return;
-            }
+            if (itemName.length === 0) return;
             
-            addItemToPantry(itemName, itemUnit);
-            searchBox.value = '';
-            newItemForm.classList.add('hidden');
-            addNewItemBtn.classList.add('hidden');
-        }
-        
-        // Add item to pantry (new or existing)
-        function addItemToPantry(itemName, unit = 'count') {
             // Check if item already exists in pantry
             const existingItemIndex = pantryItems.findIndex(item => 
-                item.name.toLowerCase() === itemName.toLowerCase()
+                item.name.toLowerCase() === itemName.toLowerCase() && 
+                item.unit === itemUnit
             );
             
-            const step = getUnitStep(unit);
+            const step = getUnitStep(itemUnit);
             
             if (existingItemIndex >= 0) {
                 // Item exists, increment stock
@@ -802,7 +1120,8 @@
                     id: Date.now(),
                     name: itemName,
                     stock: step,
-                    unit: unit,
+                    unit: itemUnit,
+                    category: defaultCategory.value,
                     lastModified: new Date().toISOString()
                 };
                 
@@ -811,13 +1130,21 @@
             
             savePantryItems();
             renderPantryList();
+            searchBox.value = '';
+            addNewItemBtn.classList.add('hidden');
+            autocompleteList.style.display = 'none';
+            
+            // Switch to pantry tab
+            document.querySelector('[data-tab="pantry"]').click();
         }
         
         // Render the pantry list
         function renderPantryList() {
-            // Filter items based on search
+            // Filter items based on search and filters
             let filteredItems = [...pantryItems];
             const searchTerm = pantrySearch.value.trim().toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedUnit = unitFilter.value;
             
             if (searchTerm.length > 0) {
                 filteredItems = filteredItems.filter(item => 
@@ -825,11 +1152,21 @@
                 );
             }
             
-            // Sort items based on selected option
-            const sortOption = sortSelect.value;
+            if (selectedCategory) {
+                filteredItems = filteredItems.filter(item => 
+                    item.category === selectedCategory
+                );
+            }
             
+            if (selectedUnit) {
+                filteredItems = filteredItems.filter(item => 
+                    item.unit === selectedUnit
+                );
+            }
+            
+            // Sort items based on selected option
             filteredItems.sort((a, b) => {
-                switch (sortOption) {
+                switch (sortSetting) {
                     case 'name-asc':
                         return a.name.localeCompare(b.name);
                     case 'name-desc':
@@ -842,18 +1179,23 @@
                         return new Date(a.lastModified) - new Date(b.lastModified);
                     case 'date-desc':
                         return new Date(b.lastModified) - new Date(a.lastModified);
+                    case 'category':
+                        return a.category.localeCompare(b.category) || a.name.localeCompare(b.name);
                     default:
                         return 0;
                 }
             });
             
+            // Group by category if selected
+            const groupByCategory = sortSetting === 'category';
+            
             // Render items
             if (filteredItems.length === 0) {
                 pantryList.innerHTML = `
-                    <div class="empty-pantry">
+                    <div class="empty-state">
                         <i class="fas fa-shopping-basket"></i>
                         <h3>No items found</h3>
-                        <p>Try a different search term</p>
+                        <p>Try adjusting your filters or add items from the catalog</p>
                     </div>
                 `;
                 return;
@@ -861,108 +1203,175 @@
             
             pantryList.innerHTML = '';
             
-            filteredItems.forEach(item => {
-                const step = getUnitStep(item.unit);
-                const unitLabel = getUnitLabel(item.unit);
-                const itemElement = document.createElement('div');
-                itemElement.className = `pantry-item ${shoppingMode ? 'shopping-mode-on' : ''}`;
-                itemElement.innerHTML = `
+            if (groupByCategory) {
+                // Group items by category
+                const groupedItems = {};
+                filteredItems.forEach(item => {
+                    if (!groupedItems[item.category]) {
+                        groupedItems[item.category] = [];
+                    }
+                    groupedItems[item.category].push(item);
+                });
+                
+                // Render each category group
+                Object.keys(groupedItems).forEach(category => {
+                    const categoryItems = groupedItems[category];
+                    
+                    // Category header
+                    const categoryHeader = document.createElement('div');
+                    categoryHeader.className = 'category-header';
+                    categoryHeader.style.cssText = `
+                        grid-column: 1 / -1;
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: var(--primary-color);
+                        margin: 10px 0;
+                        padding-bottom: 5px;
+                        border-bottom: 2px solid var(--primary-color);
+                    `;
+                    categoryHeader.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                    pantryList.appendChild(categoryHeader);
+                    
+                    // Render items in this category
+                    categoryItems.forEach(item => {
+                        pantryList.appendChild(createPantryItemElement(item));
+                    });
+                });
+            } else {
+                // Render all items without grouping
+                filteredItems.forEach(item => {
+                    pantryList.appendChild(createPantryItemElement(item));
+                });
+            }
+            
+            // Add event listeners
+            attachItemEventListeners();
+            updateSaveButtonsVisibility();
+        }
+        
+        // Create pantry item element
+        function createPantryItemElement(item) {
+            const step = getUnitStep(item.unit);
+            const unitLabel = getUnitLabel(item.unit);
+            const needsSave = itemsToSave.has(item.id);
+            
+            const itemElement = document.createElement('div');
+            itemElement.className = `pantry-item ${shoppingMode ? 'shopping-mode-on' : ''}`;
+            itemElement.innerHTML = `
+                <div class="item-header">
                     <div class="item-info">
                         <div class="item-icon">${generateIcon(item.name)}</div>
                         <div class="item-details">
                             <div class="item-name">${item.name}</div>
-                            <div class="item-stock">
-                                Stock: <span class="stock-value-display">${item.stock.toFixed(step < 1 ? 2 : 0)}</span>
-                                <span class="item-unit">${unitLabel}</span>
-                            </div>
+                            <span class="category-badge">${item.category}</span>
                             <div class="item-modified">Last modified: ${formatDate(item.lastModified)}</div>
                         </div>
                     </div>
-                    <div class="item-controls">
-                        <div class="stock-control">
-                            <button class="stock-btn minus-btn" data-id="${item.id}" data-step="${step}">-</button>
-                            <div class="stock-value">${item.stock.toFixed(step < 1 ? 2 : 0)}</div>
-                            <button class="stock-btn plus-btn" data-id="${item.id}" data-step="${step}">+</button>
-                            <select class="unit-select-small unit-selector" data-id="${item.id}">
-                                ${units.map(unit => `
-                                    <option value="${unit.value}" ${item.unit === unit.value ? 'selected' : ''}>
-                                        ${unit.label}
-                                    </option>
-                                `).join('')}
-                            </select>
-                        </div>
-                        <button class="save-btn" data-id="${item.id}">Save</button>
-                    </div>
-                `;
+                </div>
                 
-                pantryList.appendChild(itemElement);
-            });
+                <div class="item-stock-control">
+                    <div class="stock-input-container">
+                        <button class="stock-btn minus-btn" data-id="${item.id}">-</button>
+                        <input type="number" class="stock-input" 
+                               data-id="${item.id}" 
+                               value="${item.stock.toFixed(step < 1 ? 2 : 0)}" 
+                               step="${step}"
+                               min="0">
+                        <button class="stock-btn plus-btn" data-id="${item.id}">+</button>
+                    </div>
+                    
+                    <div class="unit-controls">
+                        <div class="unit-display">
+                            Unit: ${unitLabel} (Step: ${step})
+                        </div>
+                        <button class="save-btn ${needsSave && !shoppingMode ? 'visible' : ''}" 
+                                data-id="${item.id}">Save</button>
+                    </div>
+                </div>
+            `;
             
-            // Add event listeners to the buttons
+            return itemElement;
+        }
+        
+        // Attach event listeners to pantry items
+        function attachItemEventListeners() {
+            // Minus buttons
             document.querySelectorAll('.minus-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = parseInt(e.target.dataset.id);
-                    const step = parseFloat(e.target.dataset.step);
-                    updateStock(id, -step);
+                    const item = pantryItems.find(i => i.id === id);
+                    if (item) {
+                        const step = getUnitStep(item.unit);
+                        updateStockValue(id, item.stock - step);
+                    }
                 });
             });
             
+            // Plus buttons
             document.querySelectorAll('.plus-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = parseInt(e.target.dataset.id);
-                    const step = parseFloat(e.target.dataset.step);
-                    updateStock(id, step);
+                    const item = pantryItems.find(i => i.id === id);
+                    if (item) {
+                        const step = getUnitStep(item.unit);
+                        updateStockValue(id, item.stock + step);
+                    }
                 });
             });
             
-            document.querySelectorAll('.unit-selector').forEach(select => {
-                select.addEventListener('change', (e) => {
+            // Stock input fields
+            document.querySelectorAll('.stock-input').forEach(input => {
+                input.addEventListener('change', (e) => {
                     const id = parseInt(e.target.dataset.id);
-                    const newUnit = e.target.value;
-                    updateItemUnit(id, newUnit);
+                    const newValue = parseFloat(e.target.value);
+                    if (!isNaN(newValue)) {
+                        updateStockValue(id, newValue);
+                    }
+                });
+                
+                // Keyboard shortcuts
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const id = parseInt(e.target.dataset.id);
+                        const item = pantryItems.find(i => i.id === id);
+                        if (item) {
+                            const step = getUnitStep(item.unit);
+                            updateStockValue(id, item.stock + step);
+                        }
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const id = parseInt(e.target.dataset.id);
+                        const item = pantryItems.find(i => i.id === id);
+                        if (item) {
+                            const step = getUnitStep(item.unit);
+                            updateStockValue(id, Math.max(0, item.stock - step));
+                        }
+                    } else if (e.key === 'Enter') {
+                        e.target.blur();
+                    }
                 });
             });
             
+            // Save buttons
             document.querySelectorAll('.save-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = parseInt(e.target.dataset.id);
                     saveItemChanges(id);
                 });
             });
-            
-            // Show/hide save buttons based on shopping mode
-            updateSaveButtonsVisibility();
         }
         
-        // Update item stock
-        function updateStock(id, change) {
+        // Update stock value
+        function updateStockValue(id, newStock) {
             const itemIndex = pantryItems.findIndex(item => item.id === id);
             
             if (itemIndex === -1) return;
             
-            // Update stock (ensure it doesn't go below 0)
-            pantryItems[itemIndex].stock = Math.max(0, pantryItems[itemIndex].stock + change);
-            pantryItems[itemIndex].lastModified = new Date().toISOString();
+            // Ensure stock doesn't go below 0
+            newStock = Math.max(0, newStock);
             
-            // Mark item for saving
-            itemsToSave.add(id);
-            
-            // If shopping mode is on, save immediately
-            if (shoppingMode) {
-                savePantryItems();
-                itemsToSave.delete(id);
-            }
-            
-            renderPantryList();
-        }
-        
-        // Update item unit
-        function updateItemUnit(id, newUnit) {
-            const itemIndex = pantryItems.findIndex(item => item.id === id);
-            
-            if (itemIndex === -1) return;
-            
-            pantryItems[itemIndex].unit = newUnit;
+            pantryItems[itemIndex].stock = newStock;
             pantryItems[itemIndex].lastModified = new Date().toISOString();
             
             // Mark item for saving
@@ -1017,7 +1426,7 @@
             });
         }
         
-        // Filter pantry list based on search
+        // Filter pantry list based on search and filters
         function filterPantryList() {
             renderPantryList();
         }
@@ -1026,24 +1435,6 @@
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        }
-        
-        // Add some sample data on first run
-        if (!localStorage.getItem('pantryItems')) {
-            const sampleItems = [
-                {id: 1, name: 'Bananas', stock: 5, unit: 'count', lastModified: new Date().toISOString()},
-                {id: 2, name: 'Apples', stock: 8, unit: 'count', lastModified: new Date().toISOString()},
-                {id: 3, name: 'Milk', stock: 1, unit: 'l', lastModified: new Date().toISOString()},
-                {id: 4, name: 'Bread', stock: 1, unit: 'pack', lastModified: new Date().toISOString()},
-                {id: 5, name: 'Eggs', stock: 12, unit: 'count', lastModified: new Date().toISOString()},
-                {id: 6, name: 'Coffee', stock: 250, unit: 'g', lastModified: new Date().toISOString()},
-                {id: 7, name: 'Sugar', stock: 2, unit: 'kg', lastModified: new Date().toISOString()},
-                {id: 8, name: 'Olive Oil', stock: 500, unit: 'ml', lastModified: new Date().toISOString()},
-            ];
-            
-            localStorage.setItem('pantryItems', JSON.stringify(sampleItems));
-            loadPantryItems();
-            renderPantryList();
         }
     </script>
 </body>
