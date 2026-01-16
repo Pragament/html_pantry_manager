@@ -147,6 +147,7 @@
             cursor: pointer;
             transition: all 0.3s;
             color: var(--gray-color);
+            white-space: nowrap;
         }
         
         .nav-tab:hover {
@@ -177,6 +178,7 @@
             padding: 25px;
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
         }
         
         .search-container {
@@ -300,6 +302,52 @@
             gap: 5px;
         }
         
+        .unit-tabs-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+        
+        .unit-tabs {
+            display: flex;
+            gap: 5px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            min-width: min-content;
+        }
+        
+        .unit-tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--gray-color);
+            white-space: nowrap;
+        }
+        
+        .unit-tab:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .unit-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .unit-tab .badge {
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
         .pantry-controls {
             display: flex;
             justify-content: space-between;
@@ -322,7 +370,7 @@
             width: 200px;
         }
         
-        .category-filter, .unit-filter {
+        .category-filter {
             padding: 10px 15px;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
@@ -437,6 +485,8 @@
             text-align: center;
             outline: none;
             transition: border-color 0.3s;
+            min-width: 0;
+            width: 100%;
         }
         
         .stock-input:focus {
@@ -576,7 +626,12 @@
             margin-right: 5px;
         }
         
+        /* Mobile responsive styles */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
             .pantry-list {
                 grid-template-columns: 1fr;
             }
@@ -590,7 +645,7 @@
                 width: 100%;
             }
             
-            .search-pantry, .category-filter, .unit-filter, .sort-select {
+            .search-pantry, .category-filter, .sort-select {
                 width: 100%;
             }
             
@@ -601,6 +656,88 @@
             
             .units-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                width: 100%;
+                overflow-x: auto;
+            }
+            
+            .unit-tabs {
+                width: 100%;
+                overflow-x: auto;
+            }
+            
+            .unit-tab, .nav-tab {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+            
+            .stock-input-container {
+                flex-wrap: wrap;
+            }
+            
+            .stock-input {
+                flex: 1 1 100%;
+                order: 1;
+                margin: 10px 0;
+            }
+            
+            .stock-btn {
+                flex: 1;
+                min-width: 45px;
+            }
+            
+            .stock-btn.minus-btn {
+                order: 2;
+            }
+            
+            .stock-btn.plus-btn {
+                order: 3;
+            }
+            
+            .unit-controls {
+                order: 4;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .save-btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-controls {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .shopping-mode {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .nav-tabs {
+                width: 100%;
+            }
+            
+            .quick-add-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .unit-select, .quick-add-btn {
+                width: 100%;
             }
         }
     </style>
@@ -624,61 +761,14 @@
                 
                 <div class="nav-tabs">
                     <button class="nav-tab active" data-tab="pantry">Pantry</button>
-                    <button class="nav-tab" data-tab="catalog">Catalog</button>
                     <button class="nav-tab" data-tab="settings">Settings</button>
                 </div>
             </div>
         </header>
         
-        <!-- Pantry Tab -->
+        <!-- Pantry Tab (includes Catalog) -->
         <section id="pantry-tab" class="tab-content active">
-            <div class="search-section">
-                <h2 class="search-label">Organize Your Pantry</h2>
-                <div class="pantry-controls">
-                    <div class="pantry-filters">
-                        <input type="text" id="pantrySearch" class="search-pantry" placeholder="Search pantry items...">
-                        <select id="categoryFilter" class="category-filter">
-                            <option value="">All Categories</option>
-                            <option value="produce">Produce</option>
-                            <option value="dairy">Dairy</option>
-                            <option value="bakery">Bakery</option>
-                            <option value="protein">Protein</option>
-                            <option value="grains">Grains</option>
-                            <option value="beverages">Beverages</option>
-                            <option value="snacks">Snacks</option>
-                            <option value="spices">Spices</option>
-                            <option value="canned">Canned Goods</option>
-                            <option value="frozen">Frozen</option>
-                        </select>
-                        <select id="unitFilter" class="unit-filter">
-                            <option value="">All Units</option>
-                        </select>
-                    </div>
-                    
-                    <select id="sortSelect" class="sort-select">
-                        <option value="name-asc">Sort by: Name A-Z</option>
-                        <option value="name-desc">Sort by: Name Z-A</option>
-                        <option value="stock-asc">Sort by: Stock (Low to High)</option>
-                        <option value="stock-desc">Sort by: Stock (High to Low)</option>
-                        <option value="date-asc">Sort by: Oldest Modified</option>
-                        <option value="date-desc">Sort by: Recent Modified</option>
-                        <option value="category">Sort by: Category</option>
-                    </select>
-                </div>
-                
-                <div id="pantryList" class="pantry-list">
-                    <!-- Pantry items will be dynamically added here -->
-                    <div class="empty-state">
-                        <i class="fas fa-shopping-basket"></i>
-                        <h3>Your pantry is empty</h3>
-                        <p>Add items from the catalog or search for items to add</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Catalog Tab -->
-        <section id="catalog-tab" class="tab-content">
+            <!-- Search/Catalog Section -->
             <div class="search-section">
                 <h2 class="search-label">Search Catalog</h2>
                 <div class="search-container">
@@ -698,7 +788,56 @@
                 
                 <div class="catalog-info">
                     <i class="fas fa-info-circle"></i>
-                    <span>Catalog contains common pantry items. Select a unit and click "Add" to add to your pantry.</span>
+                    <span>Search for items to add to your pantry. Select a unit and click "Add".</span>
+                </div>
+            </div>
+            
+            <!-- Unit Tabs -->
+            <div class="unit-tabs-container">
+                <div id="unitTabs" class="unit-tabs">
+                    <!-- Unit tabs will be dynamically generated -->
+                    <button class="unit-tab active" data-unit="all">
+                        All Items <span id="all-count" class="badge">0</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pantry Controls -->
+            <div class="pantry-controls">
+                <div class="pantry-filters">
+                    <input type="text" id="pantrySearch" class="search-pantry" placeholder="Search pantry items...">
+                    <select id="categoryFilter" class="category-filter">
+                        <option value="">All Categories</option>
+                        <option value="produce">Produce</option>
+                        <option value="dairy">Dairy</option>
+                        <option value="bakery">Bakery</option>
+                        <option value="protein">Protein</option>
+                        <option value="grains">Grains</option>
+                        <option value="beverages">Beverages</option>
+                        <option value="snacks">Snacks</option>
+                        <option value="spices">Spices</option>
+                        <option value="canned">Canned Goods</option>
+                        <option value="frozen">Frozen</option>
+                    </select>
+                </div>
+                
+                <select id="sortSelect" class="sort-select">
+                    <option value="name-asc">Sort by: Name A-Z</option>
+                    <option value="name-desc">Sort by: Name Z-A</option>
+                    <option value="stock-asc">Sort by: Stock (Low to High)</option>
+                    <option value="stock-desc">Sort by: Stock (High to Low)</option>
+                    <option value="date-asc">Sort by: Oldest Modified</option>
+                    <option value="date-desc">Sort by: Recent Modified</option>
+                    <option value="category">Sort by: Category</option>
+                </select>
+            </div>
+            
+            <!-- Pantry List -->
+            <div id="pantryList" class="pantry-list">
+                <div class="empty-state">
+                    <i class="fas fa-shopping-basket"></i>
+                    <h3>Your pantry is empty</h3>
+                    <p>Search for items above to add them to your pantry</p>
                 </div>
             </div>
         </section>
@@ -757,30 +896,12 @@
         const pantryList = document.getElementById('pantryList');
         const pantrySearch = document.getElementById('pantrySearch');
         const categoryFilter = document.getElementById('categoryFilter');
-        const unitFilter = document.getElementById('unitFilter');
         const sortSelect = document.getElementById('sortSelect');
         const shoppingToggle = document.getElementById('shoppingToggle');
         const defaultCategory = document.getElementById('defaultCategory');
         const stepSettings = document.getElementById('stepSettings');
         const unitToggles = document.getElementById('unitToggles');
-        
-        // Tab navigation
-        const navTabs = document.querySelectorAll('.nav-tab');
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.dataset.tab;
-                
-                // Update active tab
-                navTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Show corresponding content
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
+        const unitTabsContainer = document.getElementById('unitTabs');
         
         // Available units with default steps
         const availableUnits = [
@@ -836,13 +957,16 @@
         let enabledUnits = [];
         let unitSteps = {};
         let sortSetting = 'name-asc';
+        let selectedUnitTab = 'all';
+        let unitItemCounts = {};
         
         // Initialize the app
         document.addEventListener('DOMContentLoaded', () => {
             loadSettings();
             loadPantryItems();
+            updateUnitItemCounts();
             renderUnitSelect();
-            renderUnitFilter();
+            renderUnitTabs();
             renderStepSettings();
             renderUnitToggles();
             renderPantryList();
@@ -852,7 +976,6 @@
             addNewItemBtn.addEventListener('click', addNewItem);
             pantrySearch.addEventListener('input', filterPantryList);
             categoryFilter.addEventListener('change', filterPantryList);
-            unitFilter.addEventListener('change', filterPantryList);
             sortSelect.addEventListener('change', () => {
                 sortSetting = sortSelect.value;
                 saveSettings();
@@ -860,6 +983,23 @@
             });
             shoppingToggle.addEventListener('change', toggleShoppingMode);
             defaultCategory.addEventListener('change', saveSettings);
+            
+            // Tab navigation
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    // Update active tab
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
         });
         
         // Load settings from local storage
@@ -896,6 +1036,12 @@
             if (storedCategory) {
                 defaultCategory.value = storedCategory;
             }
+            
+            // Load selected unit tab
+            const storedUnitTab = localStorage.getItem('selectedUnitTab');
+            if (storedUnitTab) {
+                selectedUnitTab = storedUnitTab;
+            }
         }
         
         // Save settings to local storage
@@ -904,10 +1050,11 @@
             localStorage.setItem('unitSteps', JSON.stringify(unitSteps));
             localStorage.setItem('sortSetting', sortSetting);
             localStorage.setItem('defaultCategory', defaultCategory.value);
+            localStorage.setItem('selectedUnitTab', selectedUnitTab);
             
             // Update UI
             renderUnitSelect();
-            renderUnitFilter();
+            renderUnitTabs();
         }
         
         // Load pantry items from local storage
@@ -921,6 +1068,19 @@
         function savePantryItems() {
             localStorage.setItem('pantryItems', JSON.stringify(pantryItems));
             itemsToSave.clear();
+        }
+        
+        // Update counts of items per unit
+        function updateUnitItemCounts() {
+            unitItemCounts = { all: pantryItems.length };
+            
+            // Count items for each enabled unit
+            enabledUnits.forEach(unit => {
+                const count = pantryItems.filter(item => item.unit === unit).length;
+                if (count > 0) {
+                    unitItemCounts[unit] = count;
+                }
+            });
         }
         
         // Generate a text icon (first 3 letters of item name)
@@ -953,16 +1113,41 @@
             });
         }
         
-        // Render unit filter dropdown
-        function renderUnitFilter() {
-            unitFilter.innerHTML = '<option value="">All Units</option>';
+        // Render unit tabs
+        function renderUnitTabs() {
+            unitTabsContainer.innerHTML = '';
+            updateUnitItemCounts();
+            
+            // Add "All Items" tab
+            const allTab = document.createElement('button');
+            allTab.className = `unit-tab ${selectedUnitTab === 'all' ? 'active' : ''}`;
+            allTab.dataset.unit = 'all';
+            allTab.innerHTML = `All Items <span id="all-count" class="badge">${unitItemCounts.all || 0}</span>`;
+            allTab.addEventListener('click', () => {
+                selectedUnitTab = 'all';
+                saveSettings();
+                renderUnitTabs();
+                renderPantryList();
+            });
+            unitTabsContainer.appendChild(allTab);
+            
+            // Add tabs for each enabled unit that has items
             enabledUnits.forEach(unitValue => {
-                const unit = availableUnits.find(u => u.value === unitValue);
-                if (unit) {
-                    const option = document.createElement('option');
-                    option.value = unit.value;
-                    option.textContent = unit.label;
-                    unitFilter.appendChild(option);
+                if (unitItemCounts[unitValue] > 0) {
+                    const unit = availableUnits.find(u => u.value === unitValue);
+                    if (unit) {
+                        const unitTab = document.createElement('button');
+                        unitTab.className = `unit-tab ${selectedUnitTab === unitValue ? 'active' : ''}`;
+                        unitTab.dataset.unit = unitValue;
+                        unitTab.innerHTML = `${unit.label} <span class="badge">${unitItemCounts[unitValue]}</span>`;
+                        unitTab.addEventListener('click', () => {
+                            selectedUnitTab = unitValue;
+                            saveSettings();
+                            renderUnitTabs();
+                            renderPantryList();
+                        });
+                        unitTabsContainer.appendChild(unitTab);
+                    }
                 }
             });
         }
@@ -1030,6 +1215,8 @@
                         }
                     }
                     saveSettings();
+                    renderUnitSelect();
+                    renderUnitTabs();
                     renderStepSettings();
                 });
             });
@@ -1066,7 +1253,7 @@
                         <div class="item-icon">${generateIcon(item.name)}</div>
                         <div>
                             <div class="item-name">${item.name}</div>
-                            <div class="item-category">${item.category}</div>
+                            <div class="category-badge">${item.category}</div>
                             <div style="font-size: 12px; color: #666; margin-top: 3px;">
                                 Common units: ${availableCommonUnits.map(u => getUnitLabel(u)).join(', ')}
                             </div>
@@ -1129,22 +1316,20 @@
             }
             
             savePantryItems();
+            updateUnitItemCounts();
+            renderUnitTabs();
             renderPantryList();
             searchBox.value = '';
             addNewItemBtn.classList.add('hidden');
             autocompleteList.style.display = 'none';
-            
-            // Switch to pantry tab
-            document.querySelector('[data-tab="pantry"]').click();
         }
         
         // Render the pantry list
         function renderPantryList() {
-            // Filter items based on search and filters
+            // Filter items based on search, category, and unit tab
             let filteredItems = [...pantryItems];
             const searchTerm = pantrySearch.value.trim().toLowerCase();
             const selectedCategory = categoryFilter.value;
-            const selectedUnit = unitFilter.value;
             
             if (searchTerm.length > 0) {
                 filteredItems = filteredItems.filter(item => 
@@ -1158,9 +1343,10 @@
                 );
             }
             
-            if (selectedUnit) {
+            // Filter by selected unit tab
+            if (selectedUnitTab !== 'all') {
                 filteredItems = filteredItems.filter(item => 
-                    item.unit === selectedUnit
+                    item.unit === selectedUnitTab
                 );
             }
             
@@ -1186,16 +1372,13 @@
                 }
             });
             
-            // Group by category if selected
-            const groupByCategory = sortSetting === 'category';
-            
             // Render items
             if (filteredItems.length === 0) {
                 pantryList.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-shopping-basket"></i>
                         <h3>No items found</h3>
-                        <p>Try adjusting your filters or add items from the catalog</p>
+                        <p>${selectedUnitTab === 'all' ? 'Try adjusting your filters or add items from the catalog' : 'No items with this unit type. Add items from the catalog.'}</p>
                     </div>
                 `;
                 return;
@@ -1203,46 +1386,9 @@
             
             pantryList.innerHTML = '';
             
-            if (groupByCategory) {
-                // Group items by category
-                const groupedItems = {};
-                filteredItems.forEach(item => {
-                    if (!groupedItems[item.category]) {
-                        groupedItems[item.category] = [];
-                    }
-                    groupedItems[item.category].push(item);
-                });
-                
-                // Render each category group
-                Object.keys(groupedItems).forEach(category => {
-                    const categoryItems = groupedItems[category];
-                    
-                    // Category header
-                    const categoryHeader = document.createElement('div');
-                    categoryHeader.className = 'category-header';
-                    categoryHeader.style.cssText = `
-                        grid-column: 1 / -1;
-                        font-size: 18px;
-                        font-weight: 600;
-                        color: var(--primary-color);
-                        margin: 10px 0;
-                        padding-bottom: 5px;
-                        border-bottom: 2px solid var(--primary-color);
-                    `;
-                    categoryHeader.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-                    pantryList.appendChild(categoryHeader);
-                    
-                    // Render items in this category
-                    categoryItems.forEach(item => {
-                        pantryList.appendChild(createPantryItemElement(item));
-                    });
-                });
-            } else {
-                // Render all items without grouping
-                filteredItems.forEach(item => {
-                    pantryList.appendChild(createPantryItemElement(item));
-                });
-            }
+            filteredItems.forEach(item => {
+                pantryList.appendChild(createPantryItemElement(item));
+            });
             
             // Add event listeners
             attachItemEventListeners();
@@ -1302,7 +1448,7 @@
                     const item = pantryItems.find(i => i.id === id);
                     if (item) {
                         const step = getUnitStep(item.unit);
-                        updateStockValue(id, item.stock - step);
+                        updateStockValue(id, item.stock - step, false);
                     }
                 });
             });
@@ -1314,41 +1460,46 @@
                     const item = pantryItems.find(i => i.id === id);
                     if (item) {
                         const step = getUnitStep(item.unit);
-                        updateStockValue(id, item.stock + step);
+                        updateStockValue(id, item.stock + step, false);
                     }
                 });
             });
             
             // Stock input fields
             document.querySelectorAll('.stock-input').forEach(input => {
-                input.addEventListener('change', (e) => {
-                    const id = parseInt(e.target.dataset.id);
-                    const newValue = parseFloat(e.target.value);
-                    if (!isNaN(newValue)) {
-                        updateStockValue(id, newValue);
-                    }
-                });
-                
-                // Keyboard shortcuts
+                // Handle Enter key for shopping mode
                 input.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowUp') {
+                    const id = parseInt(e.target.dataset.id);
+                    
+                    if (e.key === 'Enter') {
                         e.preventDefault();
-                        const id = parseInt(e.target.dataset.id);
+                        const newValue = parseFloat(e.target.value);
+                        if (!isNaN(newValue)) {
+                            updateStockValue(id, newValue, true); // true = from keyboard
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
                         const item = pantryItems.find(i => i.id === id);
                         if (item) {
                             const step = getUnitStep(item.unit);
-                            updateStockValue(id, item.stock + step);
+                            updateStockValue(id, item.stock + step, false);
                         }
                     } else if (e.key === 'ArrowDown') {
                         e.preventDefault();
-                        const id = parseInt(e.target.dataset.id);
                         const item = pantryItems.find(i => i.id === id);
                         if (item) {
                             const step = getUnitStep(item.unit);
-                            updateStockValue(id, Math.max(0, item.stock - step));
+                            updateStockValue(id, Math.max(0, item.stock - step), false);
                         }
-                    } else if (e.key === 'Enter') {
-                        e.target.blur();
+                    }
+                });
+                
+                // Handle blur for manual editing
+                input.addEventListener('blur', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    const newValue = parseFloat(e.target.value);
+                    if (!isNaN(newValue)) {
+                        updateStockValue(id, newValue, false);
                     }
                 });
             });
@@ -1363,7 +1514,7 @@
         }
         
         // Update stock value
-        function updateStockValue(id, newStock) {
+        function updateStockValue(id, newStock, fromKeyboardEnter = false) {
             const itemIndex = pantryItems.findIndex(item => item.id === id);
             
             if (itemIndex === -1) return;
@@ -1377,8 +1528,9 @@
             // Mark item for saving
             itemsToSave.add(id);
             
-            // If shopping mode is on, save immediately
-            if (shoppingMode) {
+            // If shopping mode is on AND enter key was pressed, save immediately
+            // OR if shopping mode is on and not from keyboard, also save immediately
+            if (shoppingMode && (fromKeyboardEnter || !fromKeyboardEnter)) {
                 savePantryItems();
                 itemsToSave.delete(id);
             }
@@ -1390,6 +1542,8 @@
         function saveItemChanges(id) {
             itemsToSave.delete(id);
             savePantryItems();
+            updateUnitItemCounts();
+            renderUnitTabs();
             renderPantryList();
         }
         
@@ -1400,6 +1554,8 @@
             // If turning shopping mode off and there are unsaved changes, save them
             if (!shoppingMode && itemsToSave.size > 0) {
                 savePantryItems();
+                updateUnitItemCounts();
+                renderUnitTabs();
             }
             
             renderPantryList();
@@ -1413,7 +1569,7 @@
                 const id = parseInt(btn.dataset.id);
                 
                 if (shoppingMode) {
-                    // In shopping mode, hide all save buttons
+                    // In shopping mode, hide all save buttons (auto-save on Enter)
                     btn.classList.remove('visible');
                 } else {
                     // In normal mode, only show save buttons for items with unsaved changes
